@@ -1,6 +1,6 @@
-
 import datetime
 import requests
+
 
 def cotar():
     cotacoes = []
@@ -8,7 +8,6 @@ def cotar():
 
     for dia in range(365):
         data = hoje - datetime.timedelta(days=dia)
-
         data_formatada = data.strftime("%m-%d-%Y")
 
         url = (
@@ -22,12 +21,13 @@ def cotar():
         )
 
         resposta = requests.get(url)
+        resposta.raise_for_status()
         dados = resposta.json()["value"]
 
         if dados:
             cotacoes.append(dados[0]["cotacaoCompra"])
-        else:
-            cotacoes.append(None)
 
     return cotacoes
+
+
 print(cotar())
